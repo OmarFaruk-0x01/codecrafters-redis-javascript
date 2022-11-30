@@ -9,11 +9,11 @@ const server = net.createServer((connection) => {
   connection.on("error", (err) => {
     console.log("Error: ", err);
   });
-  connection.on("data", (data) => {
+  connection.addListener("data", (data) => {
     if (data.toString("utf8").toLowerCase().includes("ping")) {
       connection.write(Buffer.from("+PONG\r\n", "utf-8"), (err) => {
-        console.log(err);
-          connection.destroy();
+        // console.log(err);
+        //   connection.destroy();
           
       });
     }
