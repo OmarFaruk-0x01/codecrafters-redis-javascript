@@ -17,6 +17,7 @@ const server = net.createServer((connection) => {
     switch (command) {
       case "ping":
         connection.write(Buffer.from("+PONG\r\n", "utf-8"), (err) => {});
+        break;
       case "echo":
         if (commandArrayLength > 2) {
           connection.write(
@@ -32,6 +33,7 @@ const server = net.createServer((connection) => {
               "utf-8"
             )
           );
+          break;
         }
     }
   });
