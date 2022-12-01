@@ -29,10 +29,10 @@ const server = net.createServer((connection) => {
         } else {
           connection.write(
             Buffer.from(
-              `+"${dataArray
+              `+${dataArray
                 ?.at(2)
                 ?.replace(/['"]/g, "")
-                .slice(1, dataArray?.at(2).length)}"\r\n`,
+                .slice(1, dataArray?.at(2).length)}\r\n`,
               "utf-8"
             )
           );
