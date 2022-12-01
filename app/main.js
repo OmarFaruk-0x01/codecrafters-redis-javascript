@@ -10,10 +10,29 @@ const server = net.createServer((connection) => {
     console.log("Error: ", err);
   });
   connection.addListener("data", (data) => {
-    if (data.toString("utf8").toLowerCase().includes("ping")) {
-      connection.write(Buffer.from("+PONG\r\n", "utf-8"), (err) => {
-          
-      });
+    const dataArray = data.toString().replace(/\r\n/g, "").split("$");
+    const commandArrayLength = 0 + +dataArray[0].trim().replace("*", "");
+    const command = dataArray[1].trim().slice(1, dataArray[1].length);
+    console.log(dataArray, commandArrayLength, command);
+    switch (command) {
+      case "ping":
+        connection.write(Buffer.from("+PONG\r\n", "utf-8"), (err) => {});
+      case "echo":
+        if (commandArrayLength > 2) {
+          connection.write(
+            Buffer.from(
+              `+(error) ERR wrong number of arguments for 'echo' command\r\n`,
+              "utf-8"
+            )
+          );
+        } else {
+          connection.write(
+            Buffer.from(
+              `+"${dataArray?.at(2)?.slice(1, dataArray?.at(2).length)}"\r\n`,
+              "utf-8"
+            )
+          );
+        }
     }
   });
 });
